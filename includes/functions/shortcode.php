@@ -22,6 +22,7 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
     $serial_subjects = get_option('kalender_pendidikan_sintesa_mata_pelajaran_serial', []);
     $plus_subjects = get_option('kalender_pendidikan_sintesa_mata_pelajaran_plus', []);
     $national_holidays = get_option('kalender_pendidikan_sintesa_hari_libur_nasional', []);
+    $special_holidays = get_option('kalender_pendidikan_sintesa_hari_khusus', []); // Tambahkan ini untuk hari khusus
     $lebaran_holiday = get_option('kalender_pendidikan_sintesa_hari_libur_lebaran', '');
     $semester_holiday = get_option('kalender_pendidikan_sintesa_hari_libur_semester', ['start' => '', 'end' => '']);
     $classmeeting = get_option('kalender_pendidikan_sintesa_hari_classmeeting', ['start' => '', 'end' => '']);
@@ -122,6 +123,13 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
                     if (!$is_exam && isset($national_holidays[$date])) {
                         $td_classes[] = 'libur nasional';
                         $holiday_description[] = esc_html($national_holidays[$date]);
+                        $is_holiday = true;
+                    }
+
+                    // Check for special holidays
+                    if (!$is_exam && !$is_holiday && isset($special_holidays[$date])) {
+                        $td_classes[] = 'libur khusus';
+                        $holiday_description[] = esc_html($special_holidays[$date]);
                         $is_holiday = true;
                     }
 
@@ -250,3 +258,4 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
     return ob_get_clean();
 }
 ?>
+
