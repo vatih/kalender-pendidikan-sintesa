@@ -3,7 +3,7 @@
 Plugin Name: Kalender Pendidikan Sintesa
 Description: Plugin untuk mengelola kalender di Pesantren Sintesa.
 Author: Ibrahim Vatih
-Version: 1.4.2
+Version: 1.4.3
 */
 
 // Define constants for paths

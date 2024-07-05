@@ -8,6 +8,16 @@
     table-layout: fixed;
 }
 
+/* Gaya untuk tabel pertama */
+.kalender-pendidikan table:first-of-type {
+    margin: 2rem 0 10rem 0;
+}
+
+/* Gaya untuk tabel terakhir */
+.kalender-pendidikan table:last-of-type {
+    margin-bottom: 10rem 0 0 0;
+}
+
 /* Gaya untuk header tabel */
 .kalender-pendidikan th {
     background-color: #f2f2f2;
