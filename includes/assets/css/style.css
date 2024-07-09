@@ -115,43 +115,20 @@
     background-color: #ffffff;
 }
 
+/* Pembungkus untuk tabel agar bisa discroll */
+.kalender-pendidikan .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Responsif untuk tampilan kecil */
 @media (max-width: 600px) {
-    .kalender-pendidikan table, 
-    .kalender-pendidikan thead, 
-    .kalender-pendidikan tbody, 
+    .kalender-pendidikan table {
+        width: auto; /* Biarkan tabel menentukan lebarnya sendiri */
+    }
+
     .kalender-pendidikan th, 
-    .kalender-pendidikan td, 
-    .kalender-pendidikan tr {
-        display: block;
-    }
-    
-    .kalender-pendidikan th {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-    
     .kalender-pendidikan td {
-        position: relative;
-        padding-left: 50%;
+        white-space: nowrap; /* Hindari memecah teks */
     }
-    
-    .kalender-pendidikan td:before {
-        position: absolute;
-        top: 12px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-    }
-    
-    .kalender-pendidikan td:nth-of-type(1):before { content: "Senin"; }
-    .kalender-pendidikan td:nth-of-type(2):before { content: "Selasa"; }
-    .kalender-pendidikan td:nth-of-type(3):before { content: "Rabu"; }
-    .kalender-pendidikan td:nth-of-type(4):before { content: "Kamis"; }
-    .kalender-pendidikan td:nth-of-type(5):before { content: "Jumat"; }
-    .kalender-pendidikan td:nth-of-type(6):before { content: "Sabtu"; }
-    .kalender-pendidikan td:nth-of-type(7):before { content: "Minggu"; }
 }

@@ -56,6 +56,7 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
     $remaining_serial_days = $serial_subjects[$serial_index]['duration'];
 
     echo '<div class="kalender-pendidikan">';
+    echo '<div class="table-wrapper">';
 
     while ($current_date <= $end_date) {
         $year = $current_date->format('Y');
@@ -253,6 +254,7 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
         $current_date->modify('first day of next month');
     }
 
+    echo '</div>';
     echo '</div>';
 
     return ob_get_clean();
