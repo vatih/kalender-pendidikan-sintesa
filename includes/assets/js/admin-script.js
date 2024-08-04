@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
             row.innerHTML += `<input type="hidden" name="serial_subjects[${rowCount}][delete]" value="0">`;
         });
     } else {
-        console.log('Button "Tambah Mata Pelajaran Serial" tidak ditemukan');
+        console.log('Button "Tambahkan Mata Pelajaran Serial" tidak ditemukan');
     }
 
-    // Add plus subject row
-    const addPlusButton = document.getElementById('add-plus-subject');
-    if (addPlusButton) {
-        addPlusButton.addEventListener('click', function () {
-            const table = document.getElementById('plus-subjects').getElementsByTagName('tbody')[0];
+    // Add routine subject row
+    const addRoutineButton = document.getElementById('add-routine-subject');
+    if (addRoutineButton) {
+        addRoutineButton.addEventListener('click', function () {
+            const table = document.getElementById('routine-subjects').getElementsByTagName('tbody')[0];
             const rowCount = table.rows.length;
             const row = table.insertRow(rowCount);
 
@@ -37,20 +37,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const cell2 = row.insertCell(1);
             const cell3 = row.insertCell(2);
 
-            cell1.innerHTML = `<input type="text" name="plus_subjects[${rowCount}][name]" value="">`;
+            cell1.innerHTML = `<input type="text" name="routine_subjects[${rowCount}][name]" value="">`;
             cell2.innerHTML = `
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="1"> Senin</label><br>
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="2"> Selasa</label><br>
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="3"> Rabu</label><br>
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="4"> Kamis</label><br>
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="5"> Jumat</label><br>
-                <label><input type="checkbox" name="plus_subjects[${rowCount}][days][]" value="6"> Sabtu</label>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="1"> Senin</label><br>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="2"> Selasa</label><br>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="3"> Rabu</label><br>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="4"> Kamis</label><br>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="5"> Jumat</label><br>
+                <label><input type="checkbox" name="routine_subjects[${rowCount}][days][]" value="6"> Sabtu</label>
             `;
             cell3.innerHTML = `<button type="button" class="remove-row button">Hapus</button>`;
-            row.innerHTML += `<input type="hidden" name="plus_subjects[${rowCount}][delete]" value="0">`;
+            row.innerHTML += `<input type="hidden" name="routine_subjects[${rowCount}][delete]" value="0">`;
         });
     } else {
-        console.log('Button "Tambah Mata Pelajaran Plus" tidak ditemukan');
+        console.log('Button "Tambahkan Mata Pelajaran Rutin" tidak ditemukan');
     }
 
     // Add national holiday row

@@ -5,7 +5,7 @@ function kalender_pendidikan_sintesa_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'kalender_pendidikan_sintesa_enqueue_styles');
 
-function kalender_pendidikan_sintesa_display_schedule($atts) {
+function kalender_pendidikan_sintesa_display_schedule($post_id) {
     ob_start();
 
     // Ambil pengaturan tanggal mulai dan tanggal selesai
@@ -19,10 +19,21 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
     $end_date->setTime(23, 59, 59);
 
     $current_date = clone $start_date;
-    $serial_subjects = get_option('kalender_pendidikan_sintesa_mata_pelajaran_serial', []);
-    $plus_subjects = get_option('kalender_pendidikan_sintesa_mata_pelajaran_plus', []);
+
+    // Mengambil data serial_subjects dan routine_subjects dari meta post
+    $serial_subjects = get_post_meta($post_id, 'serial_subjects', true);
+    $routine_subjects = get_post_meta($post_id, 'routine_subjects', true);
+    
+    if (empty($serial_subjects)) {
+        $serial_subjects = [];
+    }
+    
+    if (empty($routine_subjects)) {
+        $routine_subjects = [];
+    }
+
     $national_holidays = get_option('kalender_pendidikan_sintesa_hari_libur_nasional', []);
-    $special_holidays = get_option('kalender_pendidikan_sintesa_hari_khusus', []); // Tambahkan ini untuk hari khusus
+    $special_holidays = get_option('kalender_pendidikan_sintesa_hari_khusus', []);
     $lebaran_holiday = get_option('kalender_pendidikan_sintesa_hari_libur_lebaran', '');
     $semester_holiday = get_option('kalender_pendidikan_sintesa_hari_libur_semester', ['start' => '', 'end' => '']);
     $classmeeting = get_option('kalender_pendidikan_sintesa_hari_classmeeting', ['start' => '', 'end' => '']);
@@ -100,7 +111,7 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
                 if ($current_day >= $start_date && $current_day <= $end_date) {
                     $date = $current_day->format('Y-m-d');
                     $is_holiday = false;
-                    $is_plus_subject = false;
+                    $is_routine_subject = false;
                     $is_exam = false;
                     $is_classmeeting = false;
                     $td_classes = ['sel_tanggal'];
@@ -175,16 +186,16 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
                         $td_classes[] = 'minggu';
                     }
 
-                    // Check for Plus subjects (including Saturdays)
+                    // Check for Routine subjects (including Saturdays)
                     if (!$is_exam && !$is_holiday) {
-                        foreach ($plus_subjects as $subject) {
+                        foreach ($routine_subjects as $subject) {
                             // Adjust for PHP's week day index (0 = Monday, 6 = Sunday)
                             $adjusted_days = array_map(function($day) {
                                 return $day - 1; // Convert 1 (Monday) to 0
                             }, $subject['days']);
 
                             if (in_array($day_of_week, $adjusted_days)) {
-                                $td_classes[] = 'mapelkhusus';
+                                $td_classes[] = 'mapelrutin';
                                 break;
                             }
                         }
@@ -199,8 +210,8 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
                             echo '<span class="mapel takada">' . $description . '</span>';
                         }
                     } else {
-                        // For Plus subjects (including Saturdays)
-                        foreach ($plus_subjects as $subject) {
+                        // For Routine subjects (including Saturdays)
+                        foreach ($routine_subjects as $subject) {
                             // Adjust for PHP's week day index (0 = Monday, 6 = Sunday)
                             $adjusted_days = array_map(function($day) {
                                 return $day - 1; // Convert 1 (Monday) to 0
@@ -208,13 +219,13 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
 
                             if (in_array($day_of_week, $adjusted_days)) {
                                 echo '<span class="mapel">' . esc_html($subject['name']) . '</span>';
-                                $is_plus_subject = true;
+                                $is_routine_subject = true;
                                 break;
                             }
                         }
 
                         // For Serial subjects (Monday to Friday)
-                        if (!$is_plus_subject && $day_of_week >= 0 && $day_of_week <= 4) { // Monday to Friday
+                        if (!$is_routine_subject && $day_of_week >= 0 && $day_of_week <= 4) { // Monday to Friday
                             if ($serial_day_count < $serial_subject_days) {
                                 $current_serial_subject = $serial_subjects[$serial_index];
                                 echo '<span class="mapel">' . esc_html($current_serial_subject['name']) . '</span>';
@@ -260,4 +271,3 @@ function kalender_pendidikan_sintesa_display_schedule($atts) {
     return ob_get_clean();
 }
 ?>
-
